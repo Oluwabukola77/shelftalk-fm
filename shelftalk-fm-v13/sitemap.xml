@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://YOUR_DOMAIN/</loc></url>
+  <url><loc>https://YOUR_DOMAIN/search.html</loc></url>
+  <url><loc>https://YOUR_DOMAIN/books.html</loc></url>
+  <url><loc>https://YOUR_DOMAIN/authors.html</loc></url>
+  <url><loc>https://YOUR_DOMAIN/spotlight.html</loc></url>
+  <url><loc>https://YOUR_DOMAIN/conversations.html</loc></url>
+  <url><loc>https://YOUR_DOMAIN/journal.html</loc></url>
+  <url><loc>https://YOUR_DOMAIN/community.html</loc></url>
+  <url><loc>https://YOUR_DOMAIN/events.html</loc></url>
+  <url><loc>https://YOUR_DOMAIN/services.html</loc></url>
+</urlset>

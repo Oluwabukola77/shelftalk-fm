@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ShelfTalk FM — a global book club and literary community for readers and authors.">
+  <title>ShelfTalk FM — Books, Authors & Conversations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="announcement">A global home for readers, authors and the stories that connect us.</div>
+
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="ShelfTalk FM home">
+      <img src="assets/shelftalk-logo.jpg" alt="ShelfTalk FM logo">
+      <span class="brand-copy"><strong>SHELFTALK</strong><small>FM</small></span>
+    </a>
+    <button class="menu-toggle" aria-label="Open menu">☰</button>
+    <nav class="main-nav"><a href="search.html">Discover</a>
+      <a href="#discover">Discover</a>
+      <a href="#community">Community</a>
+      <a href="#authors">Authors</a>
+      <a href="spotlight.html">Spotlight</a>
+      <a href="conversations.html">Conversations</a>
+      <a href="#events">Events</a>
+      <a href="impact.html">Impact</a>
+      <a href="#journal">Journal</a>
+      <a class="nav-service" href="#author-services">Author Services</a>
+    </nav>
+    <a class="btn btn-dark header-cta" href="auth.html">Sign in / Join</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">GLOBAL BOOK CLUB • READ • CONNECT • DISCOVER</span>
+        <h1>Stories travel.<br><em>Readers connect.</em></h1>
+        <p>ShelfTalk FM brings readers and authors together from around the world through books, conversations, clubs, events and literary experiences.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#discover">Explore books</a>
+          <a class="text-link" href="#author-services">I'm an author →</a>
+        </div>
+        <div class="hero-stats">
+          <span><strong>Global</strong> reader community</span>
+          <span><strong>Weekly</strong> book picks</span>
+          <span><strong>Worldwide</strong> author voices</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-photo"></div>
+        <div class="floating-note">
+          <span class="mini-label">READ THIS WEEK</span>
+          <strong>The Midnight Library</strong>
+          <small>Matt Haig • Fiction</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="discover">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">DISCOVER</span>
+          <h2>Books worth talking about.</h2>
+        </div>
+        <a class="text-link" href="books.html">View all books →</a>
+      </div>
+      <div class="book-grid" id="bookGrid"></div>
+    </section>
+
+    <section class="featured-pick">
+      <div class="pick-cover">
+        <img src="https://covers.openlibrary.org/b/isbn/9780062315007-L.jpg" alt="The Alchemist book cover">
+      </div>
+      <div class="pick-content">
+        <span class="eyebrow">SHELFTALK TOP PICK • THIS WEEK</span>
+        <h2>The Alchemist</h2>
+        <p class="author-line">Paulo Coelho</p>
+        <p>Our weekly spotlight celebrates books that open conversations across borders. This week's pick is a timeless story about following a dream, listening to yourself and paying attention to the journey.</p>
+        <div class="meta-row"><span>Fiction</span><span>Global classic</span><span>★ 4.7</span></div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="book.html?id=alchemist">Explore book</a>
+          <a class="btn btn-outline" href="#community">Join the discussion</a>
+        </div>
+      </div>
+      <div class="pick-badge">TOP<br>PICK<br><strong>WEEK</strong></div>
+    </section>
+
+    <section class="section month-section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">FEATURED READING</span>
+          <h2>Book of the month.</h2>
+        </div>
+        <span class="section-note">August 2026</span>
+      </div>
+      <article class="month-card">
+        <div class="month-photo">
+          <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1100&q=85" alt="Open book on a reading table">
+        </div>
+        <div class="month-cover">
+          <img src="https://covers.openlibrary.org/b/isbn/9780593321201-L.jpg" alt="Tomorrow, and Tomorrow, and Tomorrow book cover">
+        </div>
+        <div class="month-copy">
+          <span class="eyebrow">AUGUST BOOK OF THE MONTH</span>
+          <h3>Tomorrow, and Tomorrow, and Tomorrow</h3>
+          <p class="author-line">Gabrielle Zevin</p>
+          <p>A story about friendship, creativity, ambition and the complicated ways people build a life together.</p>
+          <div class="rating">★★★★★ <span>4.8 community rating</span></div>
+          <a class="btn btn-dark" href="book.html?id=tomorrow">Read about the book</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="section" id="authors">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">MEET THE VOICES</span>
+          <h2>Authors from around the world.</h2>
+        </div>
+        <a class="text-link" href="authors.html">Discover authors →</a>
+      </div>
+      <div class="author-grid">
+        <article class="author-card">
+          <img src="https://cdn.sanity.io/images/pbcwb2z8/production/f3ac5ca67e10668c6682cc80113993aa4a2efacb-5760x3840.jpg?auto=format&fit=crop&w=700&q=80" alt="Author in a home library">
+          <div><span class="location">United Kingdom</span><h3>Anna Davis</h3><p>Writer & literary educator</p><a href="author.html?id=anna">View profile →</a></div>
+        </article>
+        <article class="author-card">
+          <img src="https://images.squarespace-cdn.com/content/v1/550d7c8be4b01d797b316def/1441245405887-UKB0XWPWROG129W82P39/image-asset.jpeg" alt="Author portrait in a bookshelf">
+          <div><span class="location">United States</span><h3>Anna Michels</h3><p>Author & editorial director</p><a href="author.html?id=michels">View profile →</a></div>
+        </article>
+        <article class="author-card">
+          <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=700&q=80" alt="Writer working at a desk">
+          <div><span class="location">Nigeria</span><h3>Amara Okoye</h3><p>Novelist & storyteller</p><a href="author.html?id=amara">View profile →</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="spotlight-teaser section" id="spotlight">
+      <div class="section-head">
+        <div><span class="eyebrow">NEXT AUTHOR SPOTLIGHT</span><h2>Meet the next voice on ShelfTalk.</h2></div>
+        <a class="text-link" href="spotlight.html">Open Spotlight →</a>
+      </div>
+      <div class="spotlight-card">
+        <div class="spotlight-photo"><img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1100&q=85" alt="Author writing at a desk"></div>
+        <div class="spotlight-copy">
+          <span class="eyebrow">UP NEXT • GLOBAL AUTHOR SERIES</span>
+          <h2>Amara Okoye</h2>
+          <p class="author-line">Nigerian novelist & storyteller</p>
+          <p>Join us for a live conversation about identity, family, creative courage and the stories that travel across borders.</p>
+          <div class="countdown" data-countdown="2026-09-05T18:00:00Z">
+            <div><strong data-unit="days">00</strong><span>Days</span></div><div><strong data-unit="hours">00</strong><span>Hours</span></div><div><strong data-unit="minutes">00</strong><span>Minutes</span></div><div><strong data-unit="seconds">00</strong><span>Seconds</span></div>
+          </div>
+          <div class="hero-actions"><a class="btn btn-primary" href="spotlight.html">Meet the author</a><a class="btn btn-outline" href="spotlight.html#reminders">Get a reminder</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="impact-section" id="impact">
+      <div class="impact-intro"><span class="eyebrow">SHELFTALK BY THE NUMBERS</span><h2>A growing home for stories.</h2><p>We are building a global literary community where readers discover books, authors find new audiences and meaningful conversations keep moving.</p><a class="btn btn-outline" href="impact.html">Explore our impact</a></div>
+      <div class="impact-grid">
+        <div class="impact-stat"><strong class="count-up" data-target="12500">0</strong><span>Readers</span><small>across our growing community</small></div>
+        <div class="impact-stat"><strong class="count-up" data-target="86">0</strong><span>Authors interviewed</span><small>voices featured by ShelfTalk</small></div>
+        <div class="impact-stat"><strong class="count-up" data-target="214">0</strong><span>Books featured</span><small>titles in our discovery ecosystem</small></div>
+      </div>
+    </section>
+
+    <section class="section conversations-section" id="conversations">
+      <div class="section-head"><div><span class="eyebrow">SHELFTALK CONVERSATIONS</span><h2>Listen and watch our author interviews.</h2></div><a class="text-link" href="conversations.html">All conversations →</a></div>
+      <div class="platform-strip">
+        <a class="platform-card" href="conversations.html#youtube"><span class="platform-mark">YT</span><div><strong>YouTube</strong><small>Watch full video interviews</small></div><span>↗</span></a>
+        <a class="platform-card" href="conversations.html#spotify"><span class="platform-mark">SP</span><div><strong>Spotify</strong><small>Listen to ShelfTalk audio</small></div><span>↗</span></a>
+        <a class="platform-card" href="conversations.html#apple"><span class="platform-mark">AP</span><div><strong>Apple Podcasts</strong><small>Follow the conversation series</small></div><span>↗</span></a>
+        <a class="platform-card" href="conversations.html#podcast"><span class="platform-mark">FM</span><div><strong>ShelfTalk FM</strong><small>Listen on our own platform</small></div><span>→</span></a>
+      </div>
+      <div class="interview-grid">
+        <article class="interview-card"><img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1000&q=85" alt="Author interview conversation"><div><span class="eyebrow">AUTHOR INTERVIEW</span><h3>Writing across cultures with Amara Okoye</h3><p>In conversation about identity, memory and finding your readers.</p><a href="conversations.html">Watch / listen →</a></div></article>
+        <article class="interview-card"><img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=1000&q=85" alt="Podcast microphone for an author interview"><div><span class="eyebrow">SHELFTALK FM</span><h3>The craft of building unforgettable characters</h3><p>A practical conversation for writers and curious readers.</p><a href="conversations.html">Watch / listen →</a></div></article>
+        <article class="interview-card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=85" alt="Books and conversation in a creative studio"><div><span class="eyebrow">AUTHOR SPOTLIGHT</span><h3>From manuscript to a worldwide audience</h3><p>How authors can build a lasting reader community.</p><a href="conversations.html">Watch / listen →</a></div></article>
+      </div>
+    </section>
+
+    <section class="world-section">
+      <div class="world-copy">
+        <span class="eyebrow">THE WORLD SHELF</span>
+        <h2>Read beyond your borders.</h2>
+        <p>Find stories from different countries, cultures and languages. ShelfTalk is built for the reader who wants the world on their bookshelf.</p>
+        <div class="country-list">
+          <span>🇳🇬 Nigeria</span><span>🇬🇭 Ghana</span><span>🇰🇪 Kenya</span><span>🇿🇦 South Africa</span>
+          <span>🇬🇧 United Kingdom</span><span>🇮🇳 India</span><span>🇯🇵 Japan</span><span>🇧🇷 Brazil</span>
+        </div>
+        <a class="btn btn-outline light" href="books.html">Explore the World Shelf</a>
+      </div>
+      <div class="world-photo"></div>
+    </section>
+
+    <section class="section services-section" id="author-services">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">FOR AUTHORS</span>
+          <h2>Turn your story into a reader experience.</h2>
+        </div>
+        <a class="text-link" href="services.html">All author services →</a>
+      </div>
+      <div class="service-grid">
+        <a class="service-card" href="services.html#promotion"><span>01</span><h3>Book Promotion</h3><p>Strategic visibility across ShelfTalk's reader ecosystem.</p></a>
+        <a class="service-card" href="services.html#interviews"><span>02</span><h3>Author Interviews</h3><p>Written, audio, video and live reader conversations.</p></a>
+        <a class="service-card" href="services.html#trailers"><span>03</span><h3>Book Trailers</h3><p>Editorial and social-first video storytelling.</p></a>
+        <a class="service-card" href="services.html#audiobooks"><span>04</span><h3>Audiobook Production</h3><p>Narration, recording, editing and mastering.</p></a>
+        <a class="service-card" href="services.html#creative"><span>05</span><h3>Cover & Creative</h3><p>Cover redesign, author branding and campaign assets.</p></a>
+        <a class="service-card" href="services.html#social"><span>06</span><h3>Social Media Marketing</h3><p>Content strategy for BookTok, Bookstagram and beyond.</p></a>
+        <a class="service-card" href="services.html#screen"><span>07</span><h3>Book-to-Screen</h3><p>Adaptation positioning, pitch materials and consultation.</p></a>
+        <a class="service-card" href="services.html#publicity"><span>08</span><h3>Media & Publicity</h3><p>Press, podcast, radio and literary media opportunities.</p></a>
+      </div>
+    </section>
+
+    <section class="section media-section" id="media">
+      <div class="section-head">
+        <div><span class="eyebrow">SHELFTALK MEDIA</span><h2>Conversations beyond the page.</h2></div>
+        <a class="text-link" href="conversations.html">Watch interviews →</a>
+      </div>
+      <div class="media-grid">
+        <article class="media-card large">
+          <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=85" alt="Library shelves">
+          <div><span class="eyebrow">JOURNAL</span><h3>Why the books we read become part of who we are</h3><p>Culture, reading habits and the stories that stay with us.</p><a href="journal.html">Read story →</a></div>
+        </article>
+        <article class="media-card">
+          <img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=800&q=85" alt="Podcast microphone">
+          <div><span class="eyebrow">PODCAST</span><h3>The ShelfTalk Conversations</h3><p>Authors, editors and readers in one room.</p><a href="#newsletter">Listen & subscribe →</a></div>
+        </article>
+        <article class="media-card">
+          <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=800&q=85" alt="Books on a library shelf">
+          <div><span class="eyebrow">READING CULTURE</span><h3>5 ways to build a reading life</h3><p>Small rituals that make reading easier to return to.</p><a href="journal.html">Explore →</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section community-section" id="community">
+      <div class="community-photo"><img src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=1000&q=85" alt="People reading and studying together"></div>
+      <div class="community-copy">
+        <span class="eyebrow">COMMUNITY</span>
+        <h2>Don't just read alone.</h2>
+        <p>Join book clubs, buddy reads, reading challenges and thoughtful discussions with people who love stories as much as you do.</p>
+        <div class="community-links"><a href="#">Find a book club <span>→</span></a><a href="#">Start a buddy read <span>→</span></a><a href="#">Join a reading challenge <span>→</span></a></div>
+      </div>
+    </section>
+
+    <section class="section" id="events">
+      <div class="section-head"><div><span class="eyebrow">UP NEXT</span><h2>Literary events.</h2></div><a class="text-link" href="#">View events →</a></div>
+      <div class="events-list">
+        <article class="event-row"><div class="date"><strong>28</strong><span>AUG</span></div><div><span class="eyebrow">ONLINE</span><h3>Inside the Story: A conversation with a debut novelist</h3><p>7:00 PM WAT • Live Q&A</p></div><a class="btn btn-outline" href="#">Register</a></article>
+        <article class="event-row"><div class="date"><strong>05</strong><span>SEP</span></div><div><span class="eyebrow">GLOBAL BOOK CLUB</span><h3>Readers Around the World: The monthly discussion</h3><p>6:00 PM WAT • Virtual gathering</p></div><a class="btn btn-outline" href="#">Join</a></article>
+      </div>
+    </section>
+
+    <section class="newsletter" id="newsletter">
+      <div><span class="eyebrow">THE SHELFTALK LETTER</span><h2>One good email. Better books.</h2><p>Weekly picks, new releases, author conversations and events from around the world.</p></div>
+      <form id="newsletterForm"><input type="email" placeholder="Your email address" required><button class="btn btn-dark" type="submit">Subscribe</button></form>
+      <small id="newsletterStatus"></small>
+    </section>
+  </main>
+
+  
+  <div class="copyright">© 2026 ShelfTalk FM. Built for a global reading community.</div>
+
+  <script src="js/app.js"></script>
+<div id="site-footer"></div><script src="js/site-config.js"></script><script src="js/site-footer.js"></script></body>
+</html>

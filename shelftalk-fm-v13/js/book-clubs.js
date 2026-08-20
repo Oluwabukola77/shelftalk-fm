@@ -1,0 +1,10 @@
+(async function(){
+ const db=window.shelfTalkDB, grid=document.getElementById('clubGrid'); if(!grid)return;
+ if(!db){grid.innerHTML='<div class="empty-state"><h3>Book clubs are ready to launch.</h3><p>Connect Supabase to load live clubs.</p></div>';return;}
+ const {data,error}=await db.from('book_clubs').select('*').eq('status','published').order('created_at',{ascending:false});
+ if(error||!data?.length){grid.innerHTML='<div class="empty-state"><h3>No public clubs yet.</h3><p>Be one of the first readers to start a ShelfTalk club.</p></div>';return;}
+ let user=null; try{user=(await db.auth.getUser()).data.user}catch(e){}
+ let joined=new Set(); if(user){const r=await db.from('club_members').select('club_id').eq('user_id',user.id); joined=new Set((r.data||[]).map(x=>x.club_id));}
+ grid.innerHTML=data.map(c=>`<article class="club-card"><div class="club-cover" style="background-image:url('${c.cover_url||'https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1100&q=85'}')"></div><div class="club-card-body"><span class="eyebrow">BOOK CLUB</span><h3>${c.name}</h3><p>${c.description||'A welcoming reading community on ShelfTalk.'}</p><div class="club-card-footer"><span>${joined.has(c.id)?'✓ Joined':'Open to readers'}</span><button class="btn ${joined.has(c.id)?'btn-outline':'btn-primary'} join-club" data-id="${c.id}">${joined.has(c.id)?'Leave club':'Join club'}</button></div></div></article>`).join('');
+ grid.querySelectorAll('.join-club').forEach(btn=>btn.onclick=async()=>{if(!user){location.href='auth.html';return;} const id=btn.dataset.id; if(joined.has(id)){await db.from('club_members').delete().eq('club_id',id).eq('user_id',user.id);joined.delete(id);}else{await db.from('club_members').insert({club_id:id,user_id:user.id});joined.add(id);} btn.textContent=joined.has(id)?'Leave club':'Join club';btn.className=`btn ${joined.has(id)?'btn-outline':'btn-primary'} join-club`;btn.closest('.club-card').querySelector('.club-card-footer span').textContent=joined.has(id)?'✓ Joined':'Open to readers';});
+})();

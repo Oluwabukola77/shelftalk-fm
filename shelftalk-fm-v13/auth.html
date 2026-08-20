@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in or Join — ShelfTalk FM</title>
+  <meta name="description" content="Sign in or create your ShelfTalk FM reader or author account.">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/supabase-client.js"></script>
+</head>
+<body>
+  <header class="auth-header">
+    <a class="brand" href="index.html" aria-label="ShelfTalk FM home">
+      <img src="assets/shelftalk-logo.jpg" alt="ShelfTalk FM logo">
+      <span class="brand-copy"><strong>SHELFTALK</strong><small>FM</small></span>
+    </a>
+    <a class="auth-back" href="index.html">← Back to ShelfTalk</a>
+  </header>
+
+  <main class="auth-shell">
+    <section class="auth-layout" aria-label="ShelfTalk account access">
+      <aside class="auth-visual">
+        <div>
+          <span class="eyebrow">SHELFTALK FM • GLOBAL READING COMMUNITY</span>
+          <h1>Find your place on the shelf.</h1>
+          <p>Follow authors, discover books, join conversations and become part of a global community of readers and storytellers.</p>
+        </div>
+        <div class="auth-quote">
+          <strong>“Stories travel. Readers connect.”</strong>
+          <span>ShelfTalk FM</span>
+        </div>
+      </aside>
+
+      <section class="auth-panel">
+        <div class="auth-panel-head">
+          <span class="eyebrow">MEMBER ACCESS</span>
+          <h2 id="authTitle">Welcome back.</h2>
+          <p id="authSubtitle">Sign in to continue your ShelfTalk experience.</p>
+        </div>
+
+        <div class="auth-switch" role="tablist" aria-label="Account access">
+          <button type="button" class="active" data-mode="signin" role="tab" aria-selected="true">Sign in</button>
+          <button type="button" data-mode="signup" role="tab" aria-selected="false">Create account</button>
+        </div>
+
+        <form id="authForm" class="auth-form">
+          <div id="nameField" hidden>
+            <label>Full name
+              <input name="full_name" autocomplete="name" placeholder="Your full name">
+            </label>
+          </div>
+
+          <div id="roleField" hidden>
+            <label>I'm joining as
+              <select name="role">
+                <option value="reader">Reader</option>
+                <option value="author">Author</option>
+              </select>
+            </label>
+          </div>
+
+          <label>Email address
+            <input name="email" type="email" required autocomplete="email" placeholder="you@example.com">
+          </label>
+
+          <label>
+            <span class="auth-password-row"><span>Password</span><a href="#" id="forgotPassword">Forgot password?</a></span>
+            <input name="password" type="password" required minlength="8" autocomplete="current-password" placeholder="At least 8 characters">
+          </label>
+
+          <label id="termsField" class="auth-terms" hidden>
+            <input name="terms" type="checkbox" required style="width:auto;margin:0 7px 0 0">
+            I agree to ShelfTalk FM's community guidelines and terms of use.
+          </label>
+
+          <button class="btn btn-primary auth-submit" id="authSubmit" type="submit">Sign in</button>
+          <p id="authStatus" class="auth-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="auth-divider">SECURE ACCOUNT ACCESS</div>
+        <p class="auth-note">Your account is secured with Supabase Authentication. <a href="services.html">Are you an author?</a></p>
+      </section>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+<div id="site-footer"></div><script src="js/site-config.js"></script><script src="js/site-footer.js"></script></body>
+</html>

@@ -1,0 +1,5 @@
+// Browser-safe Supabase configuration. Use the public anon/publishable key only.
+window.SHELFTALK_SUPABASE = {
+  url: 'https://YOUR_PROJECT.supabase.co',
+  anonKey: 'YOUR_SUPABASE_ANON_OR_PUBLISHABLE_KEY'
+};

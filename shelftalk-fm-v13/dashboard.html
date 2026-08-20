@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ShelfTalk FM — Admin Studio</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/supabase-client.js"></script>
+</head>
+<body class="admin-page">
+<header class="site-header">
+  <a class="brand" href="index.html"><img src="assets/shelftalk-logo.jpg" alt="ShelfTalk FM logo"><span class="brand-copy"><strong>SHELFTALK</strong><small>FM</small></span></a>
+  <div class="admin-header-actions"><span id="userLabel"></span><a class="btn btn-outline" href="index.html">View site</a><button id="signout" class="btn btn-outline">Sign out</button></div>
+</header>
+<main class="admin-shell">
+  <section class="page-hero admin-hero"><span class="eyebrow">SHELFTALK FM • ADMIN STUDIO</span><h1>Control the shelf.</h1><p>Manage the content that powers ShelfTalk FM. Changes made here are written directly to Supabase.</p></section>
+  <div id="dashboardGate" class="notice">Checking your account and admin permissions…</div>
+  <section id="dashboardApp" hidden>
+    <div class="admin-stat-grid">
+      <div class="impact-large-stat"><strong id="statBooks">—</strong><h3>Books</h3><p>Titles in the catalog.</p></div>
+      <div class="impact-large-stat"><strong id="statAuthors">—</strong><h3>Authors</h3><p>Author profiles.</p></div>
+      <div class="impact-large-stat"><strong id="statInterviews">—</strong><h3>Interviews</h3><p>Published conversations.</p></div>
+      <div class="impact-large-stat"><strong id="statRequests">—</strong><h3>Service requests</h3><p>Requests waiting for action.</p></div>
+    </div>
+
+    <div class="admin-layout">
+      <aside class="admin-sidebar">
+        <button class="admin-tab active" data-panel="overview">Overview</button>
+        <button class="admin-tab" data-panel="books">Books</button>
+        <button class="admin-tab" data-panel="authors">Authors</button>
+        <button class="admin-tab" data-panel="featured">Featured books</button>
+        <button class="admin-tab" data-panel="spotlights">Author spotlights</button>
+        <button class="admin-tab" data-panel="interviews">Interviews</button>
+        <button class="admin-tab" data-panel="metrics">Impact counters</button>
+        <button class="admin-tab" data-panel="requests">Service requests</button>
+      </aside>
+
+      <div class="admin-content">
+        <section class="admin-panel active" id="panel-overview">
+          <div class="admin-section-head"><div><span class="eyebrow">COMMAND CENTER</span><h2>Welcome to ShelfTalk Studio</h2></div><button class="btn btn-primary" id="refreshAll">Refresh data</button></div>
+          <div class="admin-overview-grid">
+            <article class="admin-card"><span>Weekly programming</span><h3>Top Pick + Spotlight</h3><p>Keep the homepage fresh by assigning a weekly book and scheduling the next author spotlight.</p><button class="text-btn" data-go="featured">Manage featured books →</button></article>
+            <article class="admin-card"><span>Media</span><h3>Conversations</h3><p>Add interviews once and attach YouTube, Spotify, Apple Podcasts or ShelfTalk destinations.</p><button class="text-btn" data-go="interviews">Manage interviews →</button></article>
+            <article class="admin-card"><span>Growth</span><h3>Impact counters</h3><p>Update the public reader, author-interview and book-featured numbers without touching code.</p><button class="text-btn" data-go="metrics">Update counters →</button></article>
+          </div>
+          <div class="notice admin-note"><strong>Production note:</strong> keep service keys and database credentials out of the browser. This build uses the Supabase anon key and Row Level Security; privileged actions should remain protected by database policies.</div>
+        </section>
+
+        <section class="admin-panel" id="panel-books">
+          <div class="admin-section-head"><div><span class="eyebrow">CATALOG</span><h2>Books</h2></div></div>
+          <form id="bookForm" class="admin-form"><input type="hidden" id="bookId"><div class="form-grid"><label>Title<input id="bookTitle" required></label><label>Slug<input id="bookSlug" required placeholder="the-alchemist"></label><label>Author<select id="bookAuthor"></select></label><label>Author name<input id="bookAuthorName" placeholder="Used when no author profile is linked"></label><label>Genre<input id="bookGenre" placeholder="fiction"></label><label>Country<input id="bookCountry"></label><label>ISBN<input id="bookIsbn"></label><label>Rating<input id="bookRating" type="number" min="0" max="5" step="0.1"></label><label class="full">Cover image URL<input id="bookCover"></label><label class="full">Access links <small>JSON: [{"label":"Ebook","url":"https://..."}]</small><textarea id="bookLinks" rows="3">[]</textarea></label><label class="full">Description<textarea id="bookDescription" rows="4"></textarea></label><label>Status<select id="bookStatus"><option value="published">Published</option><option value="draft">Draft</option><option value="archived">Archived</option></select></label><label>Badge
+<input id="bookBadge" placeholder="Bestseller, Editor's Choice">
+</label>
+
+<label>Published Date
+<input id="bookPublishedDate" type="date">
+</label>
+
+<label>
+<input type="checkbox" id="bookWeeklyPick">
+Top Pick of the Week
+</label>
+
+<label>
+<input type="checkbox" id="bookMonthlyPick">
+Book of the Month
+</label></div><div class="form-actions"><button class="btn btn-primary" type="submit">Save book</button><button class="btn btn-outline" type="button" data-reset="bookForm">Clear</button></div><p class="form-status" id="bookStatusMsg"></p></form>
+          <div class="table-wrap"><table><thead><tr><th>Book</th><th>Author</th><th>Status</th><th>Action</th></tr></thead><tbody id="booksTable"></tbody></table></div>
+        </section>
+
+        <section class="admin-panel" id="panel-authors">
+          <div class="admin-section-head"><div><span class="eyebrow">PEOPLE</span><h2>Authors</h2></div></div>
+          <form id="authorForm" class="admin-form"><input type="hidden" id="authorId"><div class="form-grid"><label>Name<input id="authorName" required></label><label>Slug<input id="authorSlug" required></label><label>Country<input id="authorCountry"></label><label>Role<input id="authorRole" placeholder="Novelist & storyteller"></label><label class="full">Photo URL<input id="authorImage"></label><label class="full">Website URL<input id="authorWebsite" type="url"></label><label class="full">Bio<textarea id="authorBio" rows="5"></textarea></label><label>Status<select id="authorStatus"><option value="published">Published</option><option value="draft">Draft</option><option value="archived">Archived</option></select></label></div><div class="form-actions"><button class="btn btn-primary" type="submit">Save author</button><button class="btn btn-outline" type="button" data-reset="authorForm">Clear</button></div><p class="form-status" id="authorStatusMsg"></p></form>
+          <div class="table-wrap"><table><thead><tr><th>Author</th><th>Country</th><th>Status</th><th>Action</th></tr></thead><tbody id="authorsTable"></tbody></table></div>
+        </section>
+
+        <section class="admin-panel" id="panel-featured">
+          <div class="admin-section-head"><div><span class="eyebrow">PROGRAMMING</span><h2>Featured books</h2></div></div>
+          <form id="featuredForm" class="admin-form"><div class="form-grid"><label>Book<select id="featuredBook" required></select></label><label>Feature<select id="featureType"><option value="top_pick_week">Top Pick of the Week</option><option value="book_of_month">Book of the Month</option></select></label><label>Starts at<input id="featureStart" type="datetime-local" required></label><label>Ends at<input id="featureEnd" type="datetime-local"></label><label class="full">Editorial note<textarea id="featureNote" rows="4"></textarea></label></div><div class="form-actions"><button class="btn btn-primary" type="submit">Schedule feature</button></div><p class="form-status" id="featuredStatusMsg"></p></form>
+          <div class="table-wrap"><table><thead><tr><th>Book</th><th>Type</th><th>Window</th><th>Action</th></tr></thead><tbody id="featuredTable"></tbody></table></div>
+        </section>
+
+        <section class="admin-panel" id="panel-spotlights">
+          <div class="admin-section-head"><div><span class="eyebrow">EDITORIAL PROGRAMMING</span><h2>Author spotlights</h2></div></div>
+          <form id="spotlightForm" class="admin-form"><div class="form-grid"><label>Author<select id="spotlightAuthor" required></select></label><label>Title<input id="spotlightTitle" required placeholder="Meet our next featured voice"></label><label>Starts at<input id="spotlightStart" type="datetime-local" required></label><label>Ends at<input id="spotlightEnd" type="datetime-local"></label><label class="full">Image URL<input id="spotlightImage"></label><label class="full">Description<textarea id="spotlightDescription" rows="4"></textarea></label><label>Status<select id="spotlightStatus"><option value="published">Published</option><option value="draft">Draft</option><option value="archived">Archived</option></select></label></div><div class="form-actions"><button class="btn btn-primary" type="submit">Schedule spotlight</button></div><p class="form-status" id="spotlightStatusMsg"></p></form>
+          <div class="table-wrap"><table><thead><tr><th>Author</th><th>Title</th><th>Starts</th><th>Action</th></tr></thead><tbody id="spotlightsTable"></tbody></table></div>
+        </section>
+
+        <section class="admin-panel" id="panel-interviews">
+          <div class="admin-section-head"><div><span class="eyebrow">SHELFTALK CONVERSATIONS</span><h2>Interviews & media</h2></div></div>
+          <form id="interviewForm" class="admin-form"><div class="form-grid"><label>Author<select id="interviewAuthor"></select></label><label>Title<input id="interviewTitle" required></label><label>Slug<input id="interviewSlug" required></label><label>Published at<input id="interviewPublished" type="datetime-local"></label><label>Duration (seconds)<input id="interviewDuration" type="number" min="0"></label><label>Status<select id="interviewStatus"><option value="published">Published</option><option value="draft">Draft</option><option value="archived">Archived</option></select></label><label class="full">Thumbnail URL<input id="interviewThumb"></label><label class="full">Description<textarea id="interviewDescription" rows="4"></textarea></label><label>YouTube URL<input id="youtubeUrl" type="url"></label><label>Spotify URL<input id="spotifyUrl" type="url"></label><label>Apple Podcasts URL<input id="appleUrl" type="url"></label><label>ShelfTalk player URL<input id="shelftalkUrl" type="url"></label></div><div class="form-actions"><button class="btn btn-primary" type="submit">Publish interview</button></div><p class="form-status" id="interviewStatusMsg"></p></form>
+          <div class="table-wrap"><table><thead><tr><th>Interview</th><th>Author</th><th>Platforms</th><th>Action</th></tr></thead><tbody id="interviewsTable"></tbody></table></div>
+        </section>
+
+        <section class="admin-panel" id="panel-metrics">
+          <div class="admin-section-head"><div><span class="eyebrow">PUBLIC IMPACT</span><h2>Impact counters</h2></div></div>
+          <form id="metricsForm" class="admin-form"><div id="metricsFields"></div><div class="form-actions"><button class="btn btn-primary" type="submit">Save counters</button></div><p class="form-status" id="metricsStatusMsg"></p></form>
+        </section>
+
+        <section class="admin-panel" id="panel-requests">
+          <div class="admin-section-head"><div><span class="eyebrow">AUTHOR SERVICES</span><h2>Service requests</h2></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Author</th><th>Service</th><th>Email</th><th>Status</th><th>Action</th></tr></thead><tbody id="requestsTable"></tbody></table></div>
+        </section>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="js/dashboard.js"></script>
+<div id="site-footer"></div><script src="js/site-config.js"></script><script src="js/site-footer.js"></script></body>
+</html>

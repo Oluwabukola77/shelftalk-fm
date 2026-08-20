@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard.html
+Disallow: /author-dashboard.html
+Disallow: /reader-dashboard.html
+Disallow: /notifications.html
+Sitemap: https://YOUR_DOMAIN/sitemap.xml
