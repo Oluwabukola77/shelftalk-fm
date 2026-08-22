@@ -8,7 +8,24 @@
   const dt=v=>v?new Date(v).toLocaleString([], {dateStyle:'medium',timeStyle:'short'}):'—';
   const localISO=v=>v?new Date(v).toISOString():null;
   function msg(id,text,ok=true){const n=$(id);if(n){n.textContent=text;n.style.color=ok?'inherit':'#b42318';}}
-  function reset(id){$(id)?.reset(); const hidden=$(id)?.querySelector('input[type=hidden]');if(hidden)hidden.value='';}
+  function reset(id){
+  $(id)?.reset();
+
+  const hidden=$(id)?.querySelector('input[type=hidden]');
+  if(hidden) hidden.value='';
+
+  [
+    'bookReadOnline',
+    'bookAmazon',
+    'bookGoogleBooks',
+    'bookAudiobook',
+    'bookOpenLibrary',
+    'bookAuthorWebsite',
+    'bookOther'
+  ].forEach(field=>{
+    if($(field)) $(field).value='';
+  });
+}
   async function count(table){const {count,error}=await db.from(table).select('*',{count:'exact',head:true});return error?'—':(count??0).toLocaleString();}
   async function load(){
     const [a,b,f,s,i,m,r]=await Promise.all([
@@ -33,7 +50,20 @@
     $('metricsFields').innerHTML=state.metrics.length?state.metrics.map(m=>`<label style="display:block;margin-bottom:14px;font-weight:650">${esc(m.display_label)}<input class="metric-input" data-metric-id="${m.id}" type="number" min="0" value="${Number(m.metric_value)||0}" style="display:block;width:100%;box-sizing:border-box;margin-top:7px;padding:11px;border:1px solid #d9d2c8;border-radius:10px;font:inherit"></label>`).join(''):`<p>No metrics found. Run the schema seed section first.</p>`;
     $('requestsTable').innerHTML=state.requests.length?state.requests.map(r=>`<tr><td>${esc(r.author_name)}</td><td>${esc(r.service)}</td><td>${esc(r.email)}</td><td><select class="request-status" data-request-id="${r.id}"><option ${r.status==='new'?'selected':''}>new</option><option ${r.status==='in_progress'?'selected':''}>in_progress</option><option ${r.status==='completed'?'selected':''}>completed</option><option ${r.status==='closed'?'selected':''}>closed</option></select></td><td><button class="table-action" data-save-request="${r.id}">Save</button></td></tr>`).join(''):`<tr><td colspan="5" class="empty-row">No service requests.</td></tr>`;
   }
-  async function saveBook(e){e.preventDefault();let links=[];try{links=JSON.parse($('bookLinks').value||'[]')}catch{msg('bookStatusMsg','Access links must be valid JSON.',false);return}const id=$('bookId').value;const payload={title:$('bookTitle').value,slug:$('bookSlug').value||slug($('bookTitle').value),author_id:$('bookAuthor').value||null,author_name:$('bookAuthorName').value||null,genre:$('bookGenre').value||null,country:$('bookCountry').value||null,isbn:$('bookIsbn').value||null,rating:$('bookRating').value?Number($('bookRating').value):null,cover_url:$('bookCover').value||null,access_links:links,description:$('bookDescription').value||null,status:$('bookStatus').value,badge:$('bookBadge').value||null,published_date:$('bookPublishedDate').value||null,is_weekly_pick:$('bookWeeklyPick').checked,is_monthly_pick:$('bookMonthlyPick').checked};const q=id?db.from('books').update(payload).eq('id',id):db.from('books').insert(payload);const {error}=await q;if(error)msg('bookStatusMsg',error.message,false);else{msg('bookStatusMsg','Book saved.');reset('bookForm');await load()}}
+  async function saveBook(e){e.preventDefault();const links = [
+  ['Read online', $('bookReadOnline').value],
+  ['Amazon', $('bookAmazon').value],
+  ['Google Books', $('bookGoogleBooks').value],
+  ['Audiobook', $('bookAudiobook').value],
+  ['Open Library', $('bookOpenLibrary').value],
+  ['Author website', $('bookAuthorWebsite').value],
+  ['Other', $('bookOther').value]
+]
+.filter(x => x[1])
+.map(x => ({
+  label: x[0],
+  url: x[1]
+}));const id=$('bookId').value;const payload={title:$('bookTitle').value,slug:$('bookSlug').value||slug($('bookTitle').value),author_id:$('bookAuthor').value||null,author_name:$('bookAuthorName').value||null,genre:$('bookGenre').value||null,country:$('bookCountry').value||null,isbn:$('bookIsbn').value||null,rating:$('bookRating').value?Number($('bookRating').value):null,cover_url:$('bookCover').value||null,access_links:links,description:$('bookDescription').value||null,status:$('bookStatus').value,badge:$('bookBadge').value||null,published_date:$('bookPublishedDate').value||null,is_weekly_pick:$('bookWeeklyPick').checked,is_monthly_pick:$('bookMonthlyPick').checked};const q=id?db.from('books').update(payload).eq('id',id):db.from('books').insert(payload);const {error}=await q;if(error)msg('bookStatusMsg',error.message,false);else{msg('bookStatusMsg','Book saved.');reset('bookForm');await load()}}
   async function saveAuthor(e){e.preventDefault();const id=$('authorId').value;const payload={name:$('authorName').value,slug:$('authorSlug').value||slug($('authorName').value),country:$('authorCountry').value||null,role:$('authorRole').value||null,image_url:$('authorImage').value||null,website_url:$('authorWebsite').value||null,bio:$('authorBio').value||null,status:$('authorStatus').value};const q=id?db.from('authors').update(payload).eq('id',id):db.from('authors').insert(payload);const {error}=await q;if(error)msg('authorStatusMsg',error.message,false);else{msg('authorStatusMsg','Author saved.');reset('authorForm');await load()}}
   async function saveFeatured(e){e.preventDefault();const {error}=await db.from('featured_books').insert({book_id:$('featuredBook').value,feature_type:$('featureType').value,starts_at:localISO($('featureStart').value),ends_at:localISO($('featureEnd').value),editorial_note:$('featureNote').value||null});if(error)msg('featuredStatusMsg',error.message,false);else{msg('featuredStatusMsg','Feature scheduled.');reset('featuredForm');await load()}}
   async function saveSpotlight(e){e.preventDefault();const {error}=await db.from('spotlights').insert({author_id:$('spotlightAuthor').value,title:$('spotlightTitle').value,starts_at:localISO($('spotlightStart').value),ends_at:localISO($('spotlightEnd').value),image_url:$('spotlightImage').value||null,description:$('spotlightDescription').value||null,status:$('spotlightStatus').value});if(error)msg('spotlightStatusMsg',error.message,false);else{msg('spotlightStatusMsg','Spotlight scheduled.');reset('spotlightForm');await load()}}
@@ -45,7 +75,28 @@
   $('bookForm').addEventListener('submit',saveBook);$('authorForm').addEventListener('submit',saveAuthor);$('featuredForm').addEventListener('submit',saveFeatured);$('spotlightForm').addEventListener('submit',saveSpotlight);$('interviewForm').addEventListener('submit',saveInterview);$('metricsForm').addEventListener('submit',saveMetrics);$('refreshAll').addEventListener('click',load);
   document.addEventListener('click',async e=>{
     const t=e.target;
-    if(t.dataset.editBook){const b=state.books.find(x=>x.id===t.dataset.editBook);if(!b)return;$('bookId').value=b.id;$('bookTitle').value=b.title;$('bookSlug').value=b.slug;$('bookAuthor').value=b.author_id||'';$('bookAuthorName').value=b.author_name||'';$('bookGenre').value=b.genre||'';$('bookCountry').value=b.country||'';$('bookIsbn').value=b.isbn||'';$('bookRating').value=b.rating||'';$('bookCover').value=b.cover_url||'';$('bookLinks').value=JSON.stringify(b.access_links||[],null,2);$('bookDescription').value=b.description||'';$('bookStatus').value=b.status;$('bookBadge').value=b.badge||'';$('bookPublishedDate').value=b.published_date||'';$('bookWeeklyPick').checked=b.is_weekly_pick||false;$('bookMonthlyPick').checked=b.is_monthly_pick||false;document.querySelector('[data-panel="books"]').click();window.scrollTo({top:document.getElementById('panel-books').offsetTop-20,behavior:'smooth'})}
+    if(t.dataset.editBook){const b=state.books.find(x=>x.id===t.dataset.editBook);if(!b)return;$('bookId').value=b.id;$('bookTitle').value=b.title;$('bookSlug').value=b.slug;$('bookAuthor').value=b.author_id||'';$('bookAuthorName').value=b.author_name||'';$('bookGenre').value=b.genre||'';$('bookCountry').value=b.country||'';$('bookIsbn').value=b.isbn||'';$('bookRating').value=b.rating||'';$('bookCover').value=b.cover_url||'';const access = b.access_links || [];
+
+$('bookReadOnline').value =
+  access.find(x => x.label === 'Read online')?.url || '';
+
+$('bookAmazon').value =
+  access.find(x => x.label === 'Amazon')?.url || '';
+
+$('bookGoogleBooks').value =
+  access.find(x => x.label === 'Google Books')?.url || '';
+
+$('bookAudiobook').value =
+  access.find(x => x.label === 'Audiobook')?.url || '';
+
+$('bookOpenLibrary').value =
+  access.find(x => x.label === 'Open Library')?.url || '';
+
+$('bookAuthorWebsite').value =
+  access.find(x => x.label === 'Author website')?.url || '';
+
+$('bookOther').value =
+  access.find(x => x.label === 'Other')?.url || '';$('bookDescription').value=b.description||'';$('bookStatus').value=b.status;$('bookBadge').value=b.badge||'';$('bookPublishedDate').value=b.published_date||'';$('bookWeeklyPick').checked=b.is_weekly_pick||false;$('bookMonthlyPick').checked=b.is_monthly_pick||false;document.querySelector('[data-panel="books"]').click();window.scrollTo({top:document.getElementById('panel-books').offsetTop-20,behavior:'smooth'})}
     if(t.dataset.editAuthor){const a=state.authors.find(x=>x.id===t.dataset.editAuthor);if(!a)return;$('authorId').value=a.id;$('authorName').value=a.name;$('authorSlug').value=a.slug;$('authorCountry').value=a.country||'';$('authorRole').value=a.role||'';$('authorImage').value=a.image_url||'';$('authorWebsite').value=a.website_url||'';$('authorBio').value=a.bio||'';$('authorStatus').value=a.status;document.querySelector('[data-panel="authors"]').click();window.scrollTo({top:document.getElementById('panel-authors').offsetTop-20,behavior:'smooth'})}
     for(const key of ['book','author','featured','spotlight','interview']){const id=t.dataset['delete'+key.charAt(0).toUpperCase()+key.slice(1)];if(id){if(!confirm('Delete this item?'))return;const table=key==='featured'?'featured_books':key==='spotlight'?'spotlights':key==='interview'?'interviews':key+'s';const {error}=await db.from(table).delete().eq('id',id);if(error)alert(error.message);else await load();return}}
     if(t.dataset.saveRequest){const sel=document.querySelector(`.request-status[data-request-id="${t.dataset.saveRequest}"]`);const {error}=await db.from('service_requests').update({status:sel.value}).eq('id',t.dataset.saveRequest);if(error)alert(error.message);else await load()}

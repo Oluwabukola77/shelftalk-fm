@@ -49,7 +49,46 @@
 
         <section class="admin-panel" id="panel-books">
           <div class="admin-section-head"><div><span class="eyebrow">CATALOG</span><h2>Books</h2></div></div>
-          <form id="bookForm" class="admin-form"><input type="hidden" id="bookId"><div class="form-grid"><label>Title<input id="bookTitle" required></label><label>Slug<input id="bookSlug" required placeholder="the-alchemist"></label><label>Author<select id="bookAuthor"></select></label><label>Author name<input id="bookAuthorName" placeholder="Used when no author profile is linked"></label><label>Genre<input id="bookGenre" placeholder="fiction"></label><label>Country<input id="bookCountry"></label><label>ISBN<input id="bookIsbn"></label><label>Rating<input id="bookRating" type="number" min="0" max="5" step="0.1"></label><label class="full">Cover image URL<input id="bookCover"></label><label class="full">Access links <small>JSON: [{"label":"Ebook","url":"https://..."}]</small><textarea id="bookLinks" rows="3">[]</textarea></label><label class="full">Description<textarea id="bookDescription" rows="4"></textarea></label><label>Status<select id="bookStatus"><option value="published">Published</option><option value="draft">Draft</option><option value="archived">Archived</option></select></label><label>Badge
+          <form id="bookForm" class="admin-form"><input type="hidden" id="bookId"><div class="form-grid"><label>Title<input id="bookTitle" required></label><label>Slug<input id="bookSlug" required placeholder="the-alchemist"></label><label>Author<select id="bookAuthor"></select></label><label>Author name<input id="bookAuthorName" placeholder="Used when no author profile is linked"></label><label>Genre<input id="bookGenre" placeholder="fiction"></label><label>Country<input id="bookCountry"></label><label>ISBN<input id="bookIsbn"></label><label>Rating<input id="bookRating" type="number" min="0" max="5" step="0.1"></label><label class="full">Cover image URL<input id="bookCover"></label><label class="full">
+  <span>Book access links</span>
+
+  <div class="form-grid">
+    <label>
+      Read online
+      <input id="bookReadOnline" type="url" placeholder="https://...">
+    </label>
+
+    <label>
+      Amazon
+      <input id="bookAmazon" type="url" placeholder="https://...">
+    </label>
+
+    <label>
+      Google Books
+      <input id="bookGoogleBooks" type="url" placeholder="https://...">
+    </label>
+
+    <label>
+      Audiobook
+      <input id="bookAudiobook" type="url" placeholder="https://...">
+    </label>
+
+    <label>
+      Open Library
+      <input id="bookOpenLibrary" type="url" placeholder="https://...">
+    </label>
+
+    <label>
+      Author website
+      <input id="bookAuthorWebsite" type="url" placeholder="https://...">
+    </label>
+
+    <label>
+      Other
+      <input id="bookOther" type="url" placeholder="https://...">
+    </label>
+  </div>
+</label><label class="full">Description<textarea id="bookDescription" rows="4"></textarea></label><label>Status<select id="bookStatus"><option value="published">Published</option><option value="draft">Draft</option><option value="archived">Archived</option></select></label><label>Badge
 <input id="bookBadge" placeholder="Bestseller, Editor's Choice">
 </label>
 

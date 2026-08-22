@@ -9,40 +9,6 @@ const books = [
  {id:"great-gatsby",title:"The Great Gatsby",author:"F. Scott Fitzgerald",genre:"classic",country:"United States",rating:"4.4",cover:"https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg",description:"A classic portrait of longing, wealth, reinvention and the American dream.",links:[["Library / Ebook","#"],["Print edition","#"]]}
 ];
 
-async function loadShelfTalkBooks(){
-
-  const db = window.shelfTalkDB;
-
-  if(!db){
-    console.error("Supabase is not connected");
-    return [];
-  }
-
-  const { data, error } = await db
-    .from('books')
-    .select('*')
-    .order('created_at', { ascending:false });
-
-  if(error){
-    console.error("Could not load books:", error.message);
-    return [];
-  }
-
-  return data.map(b => ({
-    id: b.slug,
-    title: b.title,
-    author: b.author_name || "Unknown author",
-    genre: b.genre || "General",
-    country: b.country || "",
-    rating: b.rating || "—",
-    cover: b.cover_url || "assets/shelftalk-logo.jpg",
-    description: b.description || "",
-    links: (b.access_links || []).map(link => [
-      link.label,
-      link.url
-    ])
-  }));
-}
 const authors = [
  {id:"anna",name:"Anna Davis",country:"United Kingdom",role:"Writer & literary educator",image:"https://cdn.sanity.io/images/pbcwb2z8/production/f3ac5ca67e10668c6682cc80113993aa4a2efacb-5760x3840.jpg?auto=format&fit=crop&w=900&q=80",bio:"Writer, editor and literary educator interested in how stories change the way we see ourselves and each other."},
  {id:"michels",name:"Anna Michels",country:"United States",role:"Author & editorial director",image:"https://images.squarespace-cdn.com/content/v1/550d7c8be4b01d797b316def/1441245405887-UKB0XWPWROG129W82P39/image-asset.jpeg",bio:"Author and editorial professional passionate about contemporary literature and helping stories find their readers."},
@@ -53,42 +19,12 @@ function bookCard(b){return `<article class="book-card"><a href="book.html?id=${
 function authorCard(a){return `<article class="author-card"><img loading="lazy" src="${a.image}" alt="${a.name}"><div><span class="location">${a.country}</span><h3>${a.name}</h3><p>${a.role}</p><a href="author.html?id=${a.id}">View profile →</a></div></article>`}
 
 const homeGrid=document.getElementById("bookGrid");
-
-if(homeGrid){
-  loadShelfTalkBooks().then(books=>{
-    homeGrid.innerHTML = books.slice(0,4).map(bookCard).join("");
-  });
-}
+if(homeGrid) homeGrid.innerHTML=books.slice(0,4).map(bookCard).join("");
 
 const allBooks=document.getElementById("allBooks");
-
 if(allBooks){
-
-  loadShelfTalkBooks().then(books=>{
-
-    allBooks.innerHTML = books.map(bookCard).join("");
-
-    document.querySelectorAll(".filter").forEach(btn=>{
-      btn.addEventListener("click",()=>{
-
-        document.querySelectorAll(".filter")
-        .forEach(x=>x.classList.remove("active"));
-
-        btn.classList.add("active");
-
-        const f=btn.dataset.filter;
-
-        allBooks.innerHTML =
-        books
-        .filter(b=>f==="all" || b.genre===f)
-        .map(bookCard)
-        .join("");
-
-      });
-    });
-
-  });
-
+  allBooks.innerHTML=books.map(bookCard).join("");
+  document.querySelectorAll(".filter").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));btn.classList.add("active");const f=btn.dataset.filter;allBooks.innerHTML=books.filter(b=>f==="all"||b.genre===f).map(bookCard).join("")}));
 }
 
 const allAuthors=document.getElementById("allAuthors");
