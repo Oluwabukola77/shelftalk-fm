@@ -61,7 +61,7 @@
 ]
 .filter(x => x[1])
 .map(x => ({
-  label: x[0],
+  name: x[0],
   url: x[1]
 }));const id=$('bookId').value;const payload={title:$('bookTitle').value,slug:$('bookSlug').value||slug($('bookTitle').value),author_id:$('bookAuthor').value||null,author_name:$('bookAuthorName').value||null,genre:$('bookGenre').value||null,country:$('bookCountry').value||null,isbn:$('bookIsbn').value||null,rating:$('bookRating').value?Number($('bookRating').value):null,cover_url:$('bookCover').value||null,access_links:links,description:$('bookDescription').value||null,status:$('bookStatus').value,badge:$('bookBadge').value||null,published_date:$('bookPublishedDate').value||null,is_weekly_pick:$('bookWeeklyPick').checked,is_monthly_pick:$('bookMonthlyPick').checked};const q=id?db.from('books').update(payload).eq('id',id):db.from('books').insert(payload);const {error}=await q;if(error)msg('bookStatusMsg',error.message,false);else{msg('bookStatusMsg','Book saved.');reset('bookForm');await load()}}
   async function saveAuthor(e){e.preventDefault();const id=$('authorId').value;const payload={name:$('authorName').value,slug:$('authorSlug').value||slug($('authorName').value),country:$('authorCountry').value||null,role:$('authorRole').value||null,image_url:$('authorImage').value||null,website_url:$('authorWebsite').value||null,bio:$('authorBio').value||null,status:$('authorStatus').value};const q=id?db.from('authors').update(payload).eq('id',id):db.from('authors').insert(payload);const {error}=await q;if(error)msg('authorStatusMsg',error.message,false);else{msg('authorStatusMsg','Author saved.');reset('authorForm');await load()}}
