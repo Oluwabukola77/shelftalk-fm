@@ -95,9 +95,156 @@ const allAuthors=document.getElementById("allAuthors");
 if(allAuthors) allAuthors.innerHTML=authors.map(authorCard).join("");
 
 const bookDetail=document.getElementById("bookDetail");
+
 if(bookDetail){
-  const id=new URLSearchParams(location.search).get("id")||"alchemist"; const b=books.find(x=>x.id===id)||books[0];
-  bookDetail.innerHTML=`<section class="book-detail"><div class="detail-cover"><img src="${b.cover}" alt="${b.title} book cover"></div><div><span class="eyebrow">${b.country} • ${b.genre}</span><h1>${b.title}</h1><p class="author-line">by ${b.author}</p><p>${b.description}</p><div class="rating">★★★★★ <span>${b.rating} ShelfTalk rating</span></div><div class="access-box"><h3>Where can I access this book?</h3><p>ShelfTalk links readers to legitimate places to read, buy, listen to or find the book.</p><div class="access-links">${b.links.map(l=>`<a href="${l[1]}" target="_blank" rel="noopener">${l[0]} ↗</a>`).join("")}</div></div><div class="hero-actions"><a class="btn btn-primary" href="#discussion">Join the discussion</a><a class="btn btn-outline" href="books.html">Back to books</a></div></div></section><section class="section" id="discussion"><span class="eyebrow">COMMUNITY</span><h2>Talk about ${b.title}.</h2><p>Discussion threads, reader reviews and buddy reads will live here once Supabase community features are connected.</p></section>`;
+
+(async function(){
+
+const id = new URLSearchParams(location.search).get("id");
+
+const {data:b, error} = await window.shelfTalkDB
+.from("books")
+.select("*")
+.eq("slug", id)
+.single();
+
+
+if(error || !b){
+
+bookDetail.innerHTML = `
+<section class="section">
+<h2>Book not found</h2>
+<p>This book does not exist in ShelfTalk.</p>
+</section>
+`;
+
+return;
+
+}
+
+
+const links = b.access_links || [];
+
+
+bookDetail.innerHTML = `
+
+<section class="book-detail">
+
+<div class="detail-cover">
+
+<img src="${b.cover_url || 'assets/shelftalk-logo.jpg'}"
+alt="${b.title}">
+
+</div>
+
+
+<div>
+
+<span class="eyebrow">
+${b.country || ""} • ${b.genre || ""}
+</span>
+
+
+<h1>${b.title}</h1>
+
+
+<p class="author-line">
+by ${b.author_name || "Unknown author"}
+</p>
+
+
+<p>
+${b.description || ""}
+</p>
+
+
+<div class="rating">
+★★★★★ 
+<span>
+${b.rating || "No rating"} ShelfTalk rating
+</span>
+</div>
+
+
+
+<div class="access-box">
+
+<h3>
+Where can I access this book?
+</h3>
+
+
+<p>
+ShelfTalk links readers to legitimate places to read, buy, listen to or find the book.
+</p>
+
+
+<div class="access-links">
+
+${
+links.length
+
+?
+
+links.map(l=>`
+
+<a href="${l.url}" target="_blank" rel="noopener">
+${l.name} ↗
+</a>
+
+`).join("")
+
+:
+
+"<p>No access links available yet.</p>"
+
+}
+
+</div>
+
+</div>
+
+
+
+<div class="hero-actions">
+
+<a class="btn btn-primary" href="#discussion">
+Join the discussion
+</a>
+
+
+<a class="btn btn-outline" href="books.html">
+Back to books
+</a>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<section class="section" id="discussion">
+
+<span class="eyebrow">
+COMMUNITY
+</span>
+
+<h2>
+Talk about ${b.title}.
+</h2>
+
+<p>
+Discussion threads, reader reviews and buddy reads will live here once Supabase community features are connected.
+</p>
+
+</section>
+
+`;
+
+})();
+
 }
 
 const authorDetail=document.getElementById("authorDetail");
