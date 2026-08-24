@@ -74,7 +74,7 @@
         email,
         password,
         options: {
-        emailRedirectTo: 'http://127.0.0.1:5500/shelftalk-fm-v13/auth.html',
+        emailRedirectTo: "https://shelftalkfm.com/auth.html",
         data: {
          full_name: form.full_name.value.trim(),
          role: form.role.value
@@ -113,7 +113,7 @@
     if (!email) return setStatus('Enter your email address first, then choose “Forgot password?”.', 'error');
     try {
       const { error } = await db.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + window.location.pathname
+        redirectTo: "https://shelftalkfm.com/auth.html"
       });
       if (error) throw error;
       setStatus('Password reset instructions have been sent to your email.', 'success');

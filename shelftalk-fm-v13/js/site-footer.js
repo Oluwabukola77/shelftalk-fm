@@ -21,8 +21,8 @@
           </a>
           <p>The global home for readers, authors, books and literary conversations.</p>
           <div class="st-footer-contact">
-            <a href="mailto:${cfg.contact.generalEmail || 'hello@shelftalkfm.com'}">✉ ${cfg.contact.generalEmail || 'hello@shelftalkfm.com'}</a>
-            <a href="mailto:${cfg.contact.authorsEmail || 'authors@shelftalkfm.com'}">✍ ${cfg.contact.authorsEmail || 'authors@shelftalkfm.com'}</a>
+            <a href="mailto:${cfg.contact.generalEmail || 'info@shelftalkfm.com'}">✉ ${cfg.contact.generalEmail || 'info@shelftalkfm.com'}</a>
+            <a href="mailto:${cfg.contact.authorsEmail || 'info@shelftalkfm.com'}">✍ ${cfg.contact.authorsEmail || 'info@shelftalkfm.com'}</a>
           </div>
         </div>
         <div>

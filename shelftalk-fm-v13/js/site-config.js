@@ -2,15 +2,15 @@
    Replace these placeholder values when the official accounts are ready. */
 window.SHELF_TALK_CONFIG = {
   contact: {
-    generalEmail: 'hello@shelftalkfm.com',
-    authorsEmail: 'authors@shelftalkfm.com'
+    generalEmail: "info@shelftalkfm.com",
+    authorsEmail: "info@shelftalkfm.com"
   },
   social: {
-    youtube: '#',
-    instagram: '#',
-    facebook: '#',
-    tiktok: '#',
-    linkedin: '#',
-    x: '#'
+    youtube: "#",
+    instagram: "#",
+    facebook: "#",
+    tiktok: "#",
+    linkedin: "#",
+    x: "#"
   }
 };
