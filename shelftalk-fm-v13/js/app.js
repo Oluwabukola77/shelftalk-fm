@@ -29,19 +29,23 @@ async function loadShelfTalkBooks(){
   }
 
   return data.map(b => ({
-    id: b.slug,
-    title: b.title,
-    author: b.author_name || "Unknown author",
-    genre: b.genre || "General",
-    country: b.country || "",
-    rating: b.rating || "—",
-    cover: b.cover_url || "assets/shelftalk-logo.jpg",
-    description: b.description || "",
-    links: (b.access_links || []).map(link => [
-      link.label,
-      link.url
-    ])
-  }));
+  id: b.slug,
+  title: b.title,
+  author: b.author_name || "Unknown author",
+  genre: b.genre || "General",
+  country: b.country || "",
+  rating: b.rating || "—",
+  cover: b.cover_url || "assets/shelftalk-logo.jpg",
+  description: b.description || "",
+
+  isWeeklyPick: b.is_weekly_pick,
+  isMonthlyPick: b.is_monthly_pick,
+
+  links: (b.access_links || []).map(link => [
+    link.label,
+    link.url
+  ])
+}));
 }
 const authors = [
  {id:"anna",name:"Anna Davis",country:"United Kingdom",role:"Writer & literary educator",image:"https://cdn.sanity.io/images/pbcwb2z8/production/f3ac5ca67e10668c6682cc80113993aa4a2efacb-5760x3840.jpg?auto=format&fit=crop&w=900&q=80",bio:"Writer, editor and literary educator interested in how stories change the way we see ourselves and each other."},
@@ -266,3 +270,192 @@ if(toggle) toggle.addEventListener("click",()=>nav.classList.toggle("open"));
 function initCountdowns(){document.querySelectorAll('[data-countdown]').forEach(el=>{const target=new Date(el.dataset.countdown).getTime();const tick=()=>{let d=Math.max(0,target-Date.now());const days=Math.floor(d/86400000);d%=86400000;const hours=Math.floor(d/3600000);d%=3600000;const minutes=Math.floor(d/60000);const seconds=Math.floor((d%60000)/1000);['days','hours','minutes','seconds'].forEach((u,i)=>{const n=[days,hours,minutes,seconds][i];const node=el.querySelector('[data-unit="'+u+'"]');if(node)node.textContent=String(n).padStart(2,'0')});if(target-Date.now()<=0)el.classList.add('countdown-live')};tick();setInterval(tick,1000)})}
 function initCounters(){const els=document.querySelectorAll('.count-up');if(!els.length)return;const run=()=>els.forEach(el=>{if(el.dataset.done)return;el.dataset.done='1';const target=Number(el.dataset.target)||0;let start=0;const duration=1500;const t0=performance.now();const step=now=>{const p=Math.min(1,(now-t0)/duration);start=Math.floor(target*(1-Math.pow(1-p,3)));el.textContent=start.toLocaleString();if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)});if('IntersectionObserver' in window){const obs=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){run();obs.disconnect()}},{threshold:.25});els.forEach(e=>obs.observe(e))}else run()}
 initCountdowns();initCounters();
+
+async function loadAuthorSpotlight(){
+
+  console.log("Author spotlight started");
+
+  const box = document.getElementById("spotlight");
+
+  console.log("Spotlight box:", box);
+
+  if(!box) return;
+
+  const { data, error } = await window.shelfTalkDB
+
+    .from("spotlights")
+
+    .select(`
+    *,
+    authors(
+      name,
+      role,
+      image_url
+    )
+    `)
+    .order("created_at", {ascending:false})
+
+    .limit(1);
+    console.log("Spotlight data:", data);
+    console.log("Spotlight error:", error);
+
+  if(error){
+
+    console.error("Spotlight error:", error);
+
+    return;
+
+  }
+
+
+  if(!data || data.length === 0) return;
+
+
+  const spotlight = data[0];
+
+
+  console.log("Spotlight loaded:", spotlight);
+
+
+  box.querySelector(".spotlight-copy h2").textContent =
+    spotlight.authors?.name || "Author";
+
+
+  box.querySelector(".spotlight-copy .author-line").textContent =
+    spotlight.authors?.role || "";
+
+
+  box.querySelector(".spotlight-copy p:nth-of-type(2)").textContent =
+    spotlight.description;
+
+
+  box.querySelector(".spotlight-photo img").src =
+    spotlight.image_url || spotlight.authors?.image_url || "";
+}
+
+const audio = document.getElementById("spotlightAudioPlayer");
+
+if(audio && spotlight.audio_url){
+    audio.src = spotlight.audio_url;
+    audio.style.display = "block";
+}
+
+async function loadWeeklyPick(){
+
+  const box = document.getElementById("weeklyPick");
+
+  if(!box) return;
+
+
+  const { data, error } = await window.shelfTalkDB
+    .from("books")
+    .select("*")
+    .eq("is_weekly_pick", true)
+    .limit(1);
+
+
+  if(error){
+    console.error("Weekly pick error:", error);
+    return;
+  }
+
+
+  if(!data || data.length === 0) return;
+
+
+  const book = data[0];
+
+
+  box.innerHTML = `
+    <div class="pick-cover">
+      <img src="${book.cover_url}" alt="${book.title} book cover">
+    </div>
+
+    <div class="pick-content">
+      <span class="eyebrow">SHELFTALK TOP PICK • THIS WEEK</span>
+
+      <h2>${book.title}</h2>
+
+      <p class="author-line">${book.author_name}</p>
+
+      <p>${book.description || ""}</p>
+
+      <div class="meta-row">
+        <span>${book.genre || "Fiction"}</span>
+        <span>${book.country || "Global"}</span>
+        <span>★ ${book.rating || "0"}</span>
+      </div>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="book.html?id=${book.id}">
+          Explore book
+        </a>
+
+        <a class="btn btn-outline" href="#community">
+          Join the discussion
+        </a>
+      </div>
+    </div>
+
+    <div class="pick-badge">
+      TOP<br>PICK<br><strong>WEEK</strong>
+    </div>
+  `;
+}
+
+async function loadMonthlyBook(){
+
+  const box = document.getElementById("monthlyPick");
+
+  if(!box) return;
+
+
+  const { data, error } = await window.shelfTalkDB
+    .from("books")
+    .select("*")
+    .eq("is_monthly_pick", true)
+    .limit(1);
+
+
+  if(error){
+    console.error("Monthly book error:", error);
+    return;
+  }
+
+
+  if(!data || data.length === 0) return;
+
+
+  const book = data[0];
+
+
+  box.innerHTML = `
+  <div class="month-cover">
+    <img src="${book.cover_url}" alt="${book.title} cover">
+  </div>
+
+  <div class="month-copy">
+
+    <span class="eyebrow">AUGUST BOOK OF THE MONTH</span>
+
+    <h3>${book.title}</h3>
+
+    <p class="author-line">${book.author_name}</p>
+
+    <p>${book.description || ""}</p>
+
+    <div class="rating">
+      ★★★★★
+      <span>${book.rating || "0"} community rating</span>
+    </div>
+
+    <a class="btn btn-dark" href="book.html?id=${book.id}">
+      Read about the book
+    </a>
+
+    </div>
+  `;
+}
+loadAuthorSpotlight();
+loadWeeklyPick();
+loadMonthlyBook();

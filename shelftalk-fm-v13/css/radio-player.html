@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ShelfTalk FM Player</title>
+</head>
+
+<body>
+
+<audio id="shelfRadio" loop>
+  <source src="../audio/shelftalk-radio.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const audio = document.getElementById("shelfRadio");
+
+
+console.log("Radio iframe loaded");
+
+
+window.addEventListener("message", function(event){
+
+
+if(event.data === "play"){
+
+    console.log("Play command received");
+
+    audio.play();
+
+}
+
+
+if(event.data === "stop"){
+
+    console.log("Stop command received");
+
+    audio.pause();
+
+    audio.currentTime = 0;
+
+}
+
+
+});
+
+</script>
+</body>
+</html>
