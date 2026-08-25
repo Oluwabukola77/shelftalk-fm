@@ -41,28 +41,7 @@
           ${social.map(([name, href]) => `<a href="${href || '#'}" ${href && href !== '#' ? 'target="_blank" rel="noopener noreferrer"' : ''}>${name}${href === '#' ? ' <small class="st-coming">Coming soon</small>' : ''}</a>`).join('')}
         </div>
       </div>
-
-      <div class="shelftalk-radio-player">
-
-      <div class="radio-icon">
-       🎧
-      </div>
-
-      <div class="radio-info">
-        <strong>ShelfTalk FM</strong>
-        <span>Literary Radio</span>
-      </div>
-
-      <button id="radioButton">
-       ▶
-      </button>
-
-      <iframe 
-       id="radioFrame"
-       src="radio-player.html">
-      </iframe>
-
-    </div>
+      
       <div class="st-newsletter-strip">
         <div><span class="eyebrow">STAY IN THE CONVERSATION</span><h3>Get the latest from ShelfTalk FM.</h3><p>New books, author interviews, literary events and stories from around the world.</p></div>
         <a class="btn btn-dark" href="index.html#newsletter">Join the newsletter</a>
